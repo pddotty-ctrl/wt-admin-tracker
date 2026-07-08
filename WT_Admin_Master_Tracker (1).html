@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ WT Admin Master Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C5CE7;
+            --primary-light: #A29BFE;
+            --secondary: #00B894;
+            --accent: #FD79A8;
+            --warning: #FDCB6E;
+            --danger: #FF7675;
+            --bg: #F8F9FA;
+            --card: #FFFFFF;
+            --text: #2D3436;
+            --text-light: #636E72;
+            --border: #E8E8E8;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
+            --radius: 16px;
+            --radius-sm: 12px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #F5F7FA 0%, #E4E8F0 100%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 24px 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: white;
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+        }
+
+        .header-title h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .header-title p {
+            color: var(--text-light);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #FF9F9F);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-success { background: #D1FAE5; color: #065F46; }
+        .badge-warning { background: #FEF3C7; color: #92400E; }
+        .badge-danger { background: #FEE2E2; color: #991B1B; }
+        .badge-info { background: #DBEAFE; color: #1E40AF; }
+
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            background: var(--card);
+            padding: 8px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            border-radius: var(--radius-sm);
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-tab:hover {
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+        }
+
+        .tab-icon { font-size: 18px; }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .dashboard-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+        }
+
+        .dashboard-card.current-admin::before {
+            background: linear-gradient(90deg, var(--secondary), #00CEC9);
+        }
+
+        .dashboard-card.next-admin::before {
+            background: linear-gradient(90deg, var(--accent), #FD79A8);
+        }
+
+        .dashboard-card.overdue::before {
+            background: linear-gradient(90deg, var(--danger), #FF9F9F);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .card-label {
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+
+        .card-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .card-subtitle {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .card-icon.purple { background: #EDE9FE; }
+        .card-icon.green { background: #D1FAE5; }
+        .card-icon.pink { background: #FCE7F3; }
+        .card-icon.yellow { background: #FEF3C7; }
+        .card-icon.red { background: #FEE2E2; }
+
+        .progress-container { margin-top: 16px; }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: var(--bg);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+        }
+
+        .progress-fill.high { background: linear-gradient(90deg, var(--secondary), #00CEC9); }
+        .progress-fill.medium { background: linear-gradient(90deg, var(--warning), #FDCB6E); }
+        .progress-fill.low { background: linear-gradient(90deg, var(--danger), #FF9F9F); }
+
+        .table-container {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .table-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .table-title {
+            font-size: 18px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table-scroll { overflow-x: auto; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th {
+            background: var(--bg);
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        tr:hover td { background: #FAFBFC; }
+
+        tr.current-row {
+            background: #F0FDF4 !important;
+            border-left: 4px solid var(--secondary);
+        }
+
+        tr.next-row {
+            background: #FDF2F8 !important;
+            border-left: 4px solid var(--accent);
+        }
+
+        tr.overdue-row {
+            background: #FEF2F2 !important;
+            border-left: 4px solid var(--danger);
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .custom-checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .custom-checkbox:hover { border-color: var(--primary); }
+
+        .custom-checkbox.checked {
+            background: linear-gradient(135deg, var(--secondary), #00CEC9);
+            border-color: var(--secondary);
+            color: white;
+        }
+
+        .custom-checkbox.checked::after {
+            content: '\2713';
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .custom-checkbox.readonly {
+            cursor: default;
+            opacity: 0.6;
+        }
+
+        .admin-elaine { color: #6C5CE7; background: #EDE9FE; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 12px; display: inline-block; }
+        .admin-rolyn { color: #E84393; background: #FCE7F3; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 12px; display: inline-block; }
+        .admin-danna { color: #00B894; background: #D1FAE5; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 12px; display: inline-block; }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 32px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal { transform: scale(1); }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            color: var(--text-light);
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+
+        .form-group { margin-bottom: 20px; }
+
+        .form-label {
+            display: block;
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.1);
+        }
+
+        .pin-dots {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        .pin-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--border);
+            transition: all 0.2s ease;
+        }
+
+        .pin-dot.filled {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+
+        .pin-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        .pin-btn {
+            aspect-ratio: 1;
+            border: 2px solid var(--border);
+            background: white;
+            border-radius: var(--radius-sm);
+            font-family: 'Nunito', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .pin-btn:hover {
+            background: var(--bg);
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .pin-btn:active { transform: scale(0.95); }
+
+        .content-section { display: none; }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            background: var(--card);
+            border-radius: var(--radius-sm);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            position: relative;
+            box-shadow: var(--shadow);
+            transition: all 0.2s ease;
+            min-height: 60px;
+        }
+
+        .calendar-day:hover { transform: scale(1.05); }
+
+        .calendar-day-header {
+            font-size: 11px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .calendar-day-number { font-size: 18px; font-weight: 800; }
+
+        .calendar-day .admin-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-top: 4px;
+        }
+
+        .calendar-day.elaine { border: 2px solid #6C5CE7; }
+        .calendar-day.rolyn { border: 2px solid #E84393; }
+        .calendar-day.danna { border: 2px solid #00B894; }
+
+        .calendar-day.today {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+        }
+
+        .calendar-day.today .calendar-day-header { color: rgba(255,255,255,0.8); }
+
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .toast {
+            background: var(--card);
+            border-radius: var(--radius-sm);
+            padding: 16px 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 350px;
+        }
+
+        .toast.show { transform: translateX(0); }
+
+        .toast-icon { font-size: 20px; }
+
+        .toast-content { flex: 1; }
+
+        .toast-title {
+            font-weight: 800;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .toast-message {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .stat-change.positive { color: var(--secondary); }
+        .stat-change.negative { color: var(--danger); }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .edit-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--secondary), #00CEC9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 184, 148, 0.3);
+            display: none;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .edit-indicator.active {
+            display: flex;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .remarks-input {
+            width: 100%;
+            min-width: 200px;
+            padding: 8px 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .remarks-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .remarks-text {
+            font-size: 13px;
+            color: var(--text-light);
+            max-width: 200px;
+            word-wrap: break-word;
+        }
+
+        .date-range {
+            font-weight: 700;
+            color: var(--text);
+            white-space: nowrap;
+        }
+
+        .date-range .date-sep {
+            color: var(--text-light);
+            margin: 0 4px;
+        }
+
+        @media (max-width: 768px) {
+            .app-container { padding: 12px; }
+            .header { padding: 16px; }
+            .header-title h1 { font-size: 22px; }
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .nav-tabs { gap: 4px; padding: 6px; }
+            .nav-tab { padding: 10px 14px; font-size: 13px; }
+            .table-container { border-radius: var(--radius-sm); }
+            th, td { padding: 10px 12px; font-size: 13px; }
+            .modal { padding: 24px; }
+            .calendar-grid { gap: 4px; }
+            .calendar-day { font-size: 12px; min-height: 50px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-indicator" id="editIndicator">
+        <span>&#128275;</span> Admin Mode Active
+    </div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-brand">
+                <div class="header-icon">&#10024;</div>
+                <div class="header-title">
+                    <h1>WT Admin Master Tracker</h1>
+                    <p>Worship Team Admin Rotation & Ministry Management</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary btn-sm" id="loginBtn" onclick="showLoginModal()">
+                    <span>&#128272;</span> Admin Login
+                </button>
+                <button class="btn btn-danger btn-sm" id="logoutBtn" onclick="logout()" style="display:none;">
+                    <span>&#128274;</span> Logout
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="exportData()">
+                    <span>&#128190;</span> Export Data
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('dashboard')">
+                <span class="tab-icon">&#128202;</span> Dashboard
+            </button>
+            <button class="nav-tab" onclick="showTab('rotation')">
+                <span class="tab-icon">&#128260;</span> Rotation
+            </button>
+            <button class="nav-tab" onclick="showTab('roster')">
+                <span class="tab-icon">&#128101;</span> Roster
+            </button>
+            <button class="nav-tab" onclick="showTab('setlist')">
+                <span class="tab-icon">&#127925;</span> Setlist
+            </button>
+            <button class="nav-tab" onclick="showTab('lyrics')">
+                <span class="tab-icon">&#128221;</span> Lyrics
+            </button>
+            <button class="nav-tab" onclick="showTab('youtube')">
+                <span class="tab-icon">&#128250;</span> YouTube
+            </button>
+            <button class="nav-tab" onclick="showTab('study')">
+                <span class="tab-icon">&#128214;</span> Study Guide
+            </button>
+            <button class="nav-tab" onclick="showTab('rehearsal')">
+                <span class="tab-icon">&#127908;</span> Rehearsal
+            </button>
+            <button class="nav-tab" onclick="showTab('calendar')">
+                <span class="tab-icon">&#128197;</span> Calendar
+            </button>
+            <button class="nav-tab" onclick="showTab('analytics')">
+                <span class="tab-icon">&#128200;</span> Analytics
+            </button>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="content-section active">
+            <div class="dashboard-grid">
+                <div class="dashboard-card current-admin">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-label">Current Admin</div>
+                            <div class="card-value" id="currentAdminName">Loading...</div>
+                            <div class="card-subtitle" id="currentAdminPeriod">--</div>
+                        </div>
+                        <div class="card-icon green">&#128081;</div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-header">
+                            <span>Task Progress</span>
+                            <span id="currentAdminProgress">0/10</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="currentAdminBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card next-admin">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-label">Next Admin</div>
+                            <div class="card-value" id="nextAdminName">Loading...</div>
+                            <div class="card-subtitle" id="nextAdminPeriod">--</div>
+                        </div>
+                        <div class="card-icon pink">&#9197;</div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-header">
+                            <span>Preparation Status</span>
+                            <span id="nextAdminProgress">0/10</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="nextAdminBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-label">Total Rotations</div>
+                            <div class="card-value" id="totalRotations">12</div>
+                            <div class="card-subtitle">Scheduled for 2026</div>
+                        </div>
+                        <div class="card-icon purple">&#128197;</div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-header">
+                            <span>Year Progress</span>
+                            <span id="yearProgress">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="yearBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card overdue">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-label">Overdue Tasks</div>
+                            <div class="card-value" id="overdueCount">0</div>
+                            <div class="card-subtitle">Need attention</div>
+                        </div>
+                        <div class="card-icon red">&#9888;&#65039;</div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-header">
+                            <span>Completion Rate</span>
+                            <span id="completionRate">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill low" id="completionBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-title">
+                        <span>&#127919;</span> Quick Overview - Upcoming Rotations
+                    </div>
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Period</th>
+                                <th>Admin</th>
+                                <th>Status</th>
+                                <th>Tasks Done</th>
+                                <th>Progress</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboardTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rotation Tab -->
+        <div id="rotation" class="content-section">
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-title">
+                        <span>&#128260;</span> Admin Rotation Schedule
+                    </div>
+                    <button class="btn btn-primary btn-sm" id="addRotationBtn" style="display:none;" onclick="addNewRotation()">
+                        <span>&#10133;</span> Add Rotation
+                    </button>
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Assigned</th>
+                                <th>Status</th>
+                                <th>Roster</th>
+                                <th>Setlist</th>
+                                <th>Rehearsal</th>
+                                <th>Lyrics</th>
+                                <th>YouTube</th>
+                                <th>SWL</th>
+                                <th>Avail.</th>
+                                <th>Study</th>
+                                <th>Notes</th>
+                                <th>Updated</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rotationTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Roster Tab -->
+        <div id="roster" class="content-section">
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-title">
+                        <span>&#128101;</span> Worship Team Roster
+                    </div>
+                    <button class="btn btn-primary btn-sm" id="addRosterBtn" style="display:none;" onclick="addNewRoster()">
+                        <span>&#10133;</span> Add Entry
+                    </button>
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Details</th>
+                                <th>Assigned</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rosterTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Setlist Tab -->
+        <div id="setlist" class="content-section">
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-title">
+                        <span>&#127925;</span> Worship Setlist
+                    </div>
+                    <button class="btn btn-primary btn-sm" id="addSetlistBtn" style="display:none;" onclick="addNewSetlist()">
+                        <span>&#10133;</span> Add Song
+                    </button>
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Details</th>
+                                <th>Assigned</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="setlistTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lyrics Tab -->
+        <div id="lyrics" class="content-section">
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-title">
+                        <span>&#128221;</span> Lyrics Management
+                    </div>
+                    <button class="btn btn-primary btn-sm" id="addLyricsBtn" style="display:none;" onclick="addNewLyrics()">
+                        <span>&#10133;</span> Add Lyrics
+                    </button>
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Details</th>
+                                <th>Assigned</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lyricsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- YouTube Tab -->
+        <div id="youtube" class="content-section">
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-title">
+                        <span>&#128250;</span> YouTube Playlist
+                    </div>
+                    <button class="btn btn-primary btn-sm" id="addYoutubeBtn" style="display:none;" onclick="addNewYoutube()">
+                        <span>&#10133;</span> Add Playlist
+                    </button>
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Details</th>
+                                <th>Assigned</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="youtubeTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Study Guide Tab -->
+        <div id="study" class="content-section">
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-title">
+                        <span>&#128214;</span> Study Guide
+                    </div>
+                    <button class="btn btn-primary btn-sm" id="addStudyBtn" style="display:none;" onclick="addNewStudy()">
+                        <span>&#10133;</span> Add Guide
+                    </button>
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Details</th>
+                                <th>Assigned</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studyTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rehearsal Tab -->
+        <div id="rehearsal" class="content-section">
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-title">
+                        <span>&#127908;</span> Rehearsal Notes
+                    </div>
+                    <button class="btn btn-primary btn-sm" id="addRehearsalBtn" style="display:none;" onclick="addNewRehearsal()">
+                        <span>&#10133;</span> Add Notes
+                    </button>
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Details</th>
+                                <th>Assigned</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rehearsalTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar Tab -->
+        <div id="calendar" class="content-section">
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-title">
+                        <span>&#128197;</span> Monthly Calendar View
+                    </div>
+                    <div style="display:flex;gap:12px;align-items:center;">
+                        <button class="btn btn-secondary btn-sm" onclick="changeMonth(-1)">&#8592; Prev</button>
+                        <span id="calendarMonthYear" style="font-weight:800;font-size:16px;">July 2026</span>
+                        <button class="btn btn-secondary btn-sm" onclick="changeMonth(1)">Next &#8594;</button>
+                    </div>
+                </div>
+                <div style="padding:24px;">
+                    <div class="calendar-grid" id="calendarGrid"></div>
+                    <div style="margin-top:24px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap;">
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <div style="width:16px;height:16px;border-radius:50%;background:#6C5CE7;"></div>
+                            <span style="font-size:13px;font-weight:600;">Elaine</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <div style="width:16px;height:16px;border-radius:50%;background:#E84393;"></div>
+                            <span style="font-size:13px;font-weight:600;">Rolyn</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <div style="width:16px;height:16px;border-radius:50%;background:#00B894;"></div>
+                            <span style="font-size:13px;font-weight:600;">Danna</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analytics" class="content-section">
+            <div class="analytics-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="statTotalTasks">0</div>
+                    <div class="stat-label">Total Tasks</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statCompletedTasks">0</div>
+                    <div class="stat-label">Completed</div>
+                    <div class="stat-change positive" id="statCompletionRate">0%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statElaineCount">0</div>
+                    <div class="stat-label">Elaine Rotations</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statRolynCount">0</div>
+                    <div class="stat-label">Rolyn Rotations</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statDannaCount">0</div>
+                    <div class="stat-label">Danna Rotations</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statAvgProgress">0%</div>
+                    <div class="stat-label">Avg Progress</div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-title">
+                        <span>&#128202;</span> Admin Performance
+                    </div>
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Admin</th>
+                                <th>Total Rotations</th>
+                                <th>Tasks Completed</th>
+                                <th>Tasks Total</th>
+                                <th>Completion Rate</th>
+                                <th>Avg Progress</th>
+                            </tr>
+                        </thead>
+                        <tbody id="analyticsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <div style="text-align:center;margin-bottom:24px;">
+                <div style="font-size:48px;margin-bottom:12px;">&#128272;</div>
+                <div class="modal-title">Admin Login</div>
+                <div class="modal-subtitle">Enter your 4-digit PIN to access editing features</div>
+            </div>
+            <div class="pin-dots" id="pinDots">
+                <div class="pin-dot"></div>
+                <div class="pin-dot"></div>
+                <div class="pin-dot"></div>
+                <div class="pin-dot"></div>
+            </div>
+            <div class="pin-pad">
+                <button class="pin-btn" onclick="enterPin(1)">1</button>
+                <button class="pin-btn" onclick="enterPin(2)">2</button>
+                <button class="pin-btn" onclick="enterPin(3)">3</button>
+                <button class="pin-btn" onclick="enterPin(4)">4</button>
+                <button class="pin-btn" onclick="enterPin(5)">5</button>
+                <button class="pin-btn" onclick="enterPin(6)">6</button>
+                <button class="pin-btn" onclick="enterPin(7)">7</button>
+                <button class="pin-btn" onclick="enterPin(8)">8</button>
+                <button class="pin-btn" onclick="enterPin(9)">9</button>
+                <button class="pin-btn" onclick="clearPin()">&#9003;</button>
+                <button class="pin-btn" onclick="enterPin(0)">0</button>
+                <button class="pin-btn" onclick="cancelLogin()">&#10005;</button>
+            </div>
+            <div style="text-align:center;margin-top:16px;font-size:12px;color:var(--text-light);">
+                Default PIN: <strong>2026</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+
+// ==================== DATA MANAGEMENT ====================
+const TASK_COLUMNS = ['roster', 'setlist', 'rehearsal', 'lyrics', 'youtube', 'swl', 'availability', 'study', 'notes', 'updated'];
+const ADMIN_COLORS = { 'Elaine': 'elaine', 'Rolyn': 'rolyn', 'Danna': 'danna' };
+const ADMIN_PIN = '2026';
+
+let isAdmin = false;
+let currentPin = '';
+let calendarDate = new Date(2026, 6, 8); // July 8, 2026
+
+// Default data from the spreadsheet
+const defaultData = {
+    rotations: [
+        { id: 1, start: '2026-07-13', end: '2026-07-26', assigned: 'Elaine', status: 'Upcoming', roster: false, setlist: false, rehearsal: false, lyrics: false, youtube: false, swl: false, availability: false, study: false, notes: false, updated: false, remarks: '' },
+        { id: 2, start: '2026-07-27', end: '2026-08-09', assigned: 'Rolyn', status: 'Upcoming', roster: false, setlist: false, rehearsal: false, lyrics: false, youtube: false, swl: false, availability: false, study: false, notes: false, updated: false, remarks: '' },
+        { id: 3, start: '2026-08-10', end: '2026-08-23', assigned: 'Danna', status: 'Upcoming', roster: false, setlist: false, rehearsal: false, lyrics: false, youtube: false, swl: false, availability: false, study: false, notes: false, updated: false, remarks: '' },
+        { id: 4, start: '2026-08-24', end: '2026-09-06', assigned: 'Elaine', status: 'Upcoming', roster: false, setlist: false, rehearsal: false, lyrics: false, youtube: false, swl: false, availability: false, study: false, notes: false, updated: false, remarks: '' },
+        { id: 5, start: '2026-09-07', end: '2026-09-20', assigned: 'Rolyn', status: 'Upcoming', roster: false, setlist: false, rehearsal: false, lyrics: false, youtube: false, swl: false, availability: false, study: false, notes: false, updated: false, remarks: '' },
+        { id: 6, start: '2026-09-21', end: '2026-10-04', assigned: 'Danna', status: 'Upcoming', roster: false, setlist: false, rehearsal: false, lyrics: false, youtube: false, swl: false, availability: false, study: false, notes: false, updated: false, remarks: '' },
+        { id: 7, start: '2026-10-05', end: '2026-10-18', assigned: 'Elaine', status: 'Upcoming', roster: false, setlist: false, rehearsal: false, lyrics: false, youtube: false, swl: false, availability: false, study: false, notes: false, updated: false, remarks: '' },
+        { id: 8, start: '2026-10-19', end: '2026-11-01', assigned: 'Rolyn', status: 'Upcoming', roster: false, setlist: false, rehearsal: false, lyrics: false, youtube: false, swl: false, availability: false, study: false, notes: false, updated: false, remarks: '' },
+        { id: 9, start: '2026-11-02', end: '2026-11-15', assigned: 'Danna', status: 'Upcoming', roster: false, setlist: false, rehearsal: false, lyrics: false, youtube: false, swl: false, availability: false, study: false, notes: false, updated: false, remarks: '' },
+        { id: 10, start: '2026-11-16', end: '2026-11-29', assigned: 'Elaine', status: 'Upcoming', roster: false, setlist: false, rehearsal: false, lyrics: false, youtube: false, swl: false, availability: false, study: false, notes: false, updated: false, remarks: '' },
+        { id: 11, start: '2026-11-30', end: '2026-12-13', assigned: 'Rolyn', status: 'Upcoming', roster: false, setlist: false, rehearsal: false, lyrics: false, youtube: false, swl: false, availability: false, study: false, notes: false, updated: false, remarks: '' },
+        { id: 12, start: '2026-12-14', end: '2026-12-27', assigned: 'Danna', status: 'Upcoming', roster: false, setlist: false, rehearsal: false, lyrics: false, youtube: false, swl: false, availability: false, study: false, notes: false, updated: false, remarks: '' }
+    ],
+    roster: [],
+    setlist: [],
+    lyrics: [],
+    youtube: [],
+    study: [],
+    rehearsal: []
+};
+
+let appData = {};
+
+// ==================== LOCAL STORAGE ====================
+function loadData() {
+    const saved = localStorage.getItem('wtAdminData');
+    if (saved) {
+        appData = JSON.parse(saved);
+    } else {
+        appData = JSON.parse(JSON.stringify(defaultData));
+        saveData();
+    }
+}
+
+function saveData() {
+    localStorage.setItem('wtAdminData', JSON.stringify(appData));
+}
+
+function exportData() {
+    const dataStr = JSON.stringify(appData, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'WT_Admin_Data_' + new Date().toISOString().split('T')[0] + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('Export Successful', 'Your data has been downloaded!', 'success');
+}
+
+// ==================== AUTHENTICATION ====================
+function showLoginModal() {
+    document.getElementById('loginModal').classList.add('active');
+    currentPin = '';
+    updatePinDots();
+}
+
+function cancelLogin() {
+    document.getElementById('loginModal').classList.remove('active');
+    currentPin = '';
+    updatePinDots();
+}
+
+function enterPin(num) {
+    if (currentPin.length < 4) {
+        currentPin += num;
+        updatePinDots();
+        if (currentPin.length === 4) {
+            setTimeout(() => checkPin(), 300);
+        }
+    }
+}
+
+function clearPin() {
+    currentPin = currentPin.slice(0, -1);
+    updatePinDots();
+}
+
+function updatePinDots() {
+    const dots = document.querySelectorAll('.pin-dot');
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('filled', i < currentPin.length);
+    });
+}
+
+function checkPin() {
+    if (currentPin === ADMIN_PIN) {
+        isAdmin = true;
+        document.getElementById('loginModal').classList.remove('active');
+        document.getElementById('loginBtn').style.display = 'none';
+        document.getElementById('logoutBtn').style.display = 'inline-flex';
+        document.getElementById('editIndicator').classList.add('active');
+        showAdminButtons();
+        showToast('Welcome Admin!', 'You now have full editing access.', 'success');
+        renderAll();
+    } else {
+        showToast('Invalid PIN', 'Please try again. Default: 2026', 'error');
+        currentPin = '';
+        updatePinDots();
+    }
+}
+
+function logout() {
+    isAdmin = false;
+    document.getElementById('loginBtn').style.display = 'inline-flex';
+    document.getElementById('logoutBtn').style.display = 'none';
+    document.getElementById('editIndicator').classList.remove('active');
+    hideAdminButtons();
+    showToast('Logged Out', 'View-only mode activated.', 'info');
+    renderAll();
+}
+
+function showAdminButtons() {
+    document.querySelectorAll('[id$="Btn"]').forEach(btn => {
+        if (btn.id.includes('add') || btn.id.includes('Add')) {
+            btn.style.display = 'inline-flex';
+        }
+    });
+}
+
+function hideAdminButtons() {
+    document.querySelectorAll('[id$="Btn"]').forEach(btn => {
+        if (btn.id.includes('add') || btn.id.includes('Add')) {
+            btn.style.display = 'none';
+        }
+    });
+}
+
+// ==================== NAVIGATION ====================
+function showTab(tabId) {
+    document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    event.target.closest('.nav-tab').classList.add('active');
+
+    if (tabId === 'calendar') renderCalendar();
+    if (tabId === 'analytics') renderAnalytics();
+}
+
+// ==================== DASHBOARD ====================
+function getCurrentRotation() {
+    const today = new Date('2026-07-08');
+    return appData.rotations.find(r => {
+        const start = new Date(r.start);
+        const end = new Date(r.end);
+        return today >= start && today <= end;
+    });
+}
+
+function getNextRotation() {
+    const today = new Date('2026-07-08');
+    return appData.rotations.find(r => new Date(r.start) > today);
+}
+
+function getRotationProgress(rotation) {
+    if (!rotation) return { completed: 0, total: 10, percent: 0 };
+    const completed = TASK_COLUMNS.filter(col => rotation[col]).length;
+    return { completed, total: 10, percent: Math.round((completed / 10) * 100) };
+}
+
+function getStatusBadge(status) {
+    const badges = {
+        'Completed': 'badge-success',
+        'In Progress': 'badge-warning',
+        'Upcoming': 'badge-info',
+        'Overdue': 'badge-danger'
+    };
+    return `<span class="badge ${badges[status] || 'badge-info'}">${status}</span>`;
+}
+
+function renderDashboard() {
+    const current = getCurrentRotation();
+    const next = getNextRotation();
+
+    // Current Admin Card
+    if (current) {
+        const progress = getRotationProgress(current);
+        document.getElementById('currentAdminName').innerHTML = `<span class="admin-${ADMIN_COLORS[current.assigned]}">${current.assigned}</span>`;
+        document.getElementById('currentAdminPeriod').textContent = formatDateRange(current.start, current.end);
+        document.getElementById('currentAdminProgress').textContent = `${progress.completed}/${progress.total}`;
+        document.getElementById('currentAdminBar').style.width = `${progress.percent}%`;
+        document.getElementById('currentAdminBar').className = `progress-fill ${progress.percent >= 80 ? 'high' : progress.percent >= 50 ? 'medium' : 'low'}`;
+    } else {
+        document.getElementById('currentAdminName').textContent = 'No Active Rotation';
+        document.getElementById('currentAdminPeriod').textContent = 'Check schedule';
+        document.getElementById('currentAdminProgress').textContent = '0/10';
+        document.getElementById('currentAdminBar').style.width = '0%';
+    }
+
+    // Next Admin Card
+    if (next) {
+        const progress = getRotationProgress(next);
+        document.getElementById('nextAdminName').innerHTML = `<span class="admin-${ADMIN_COLORS[next.assigned]}">${next.assigned}</span>`;
+        document.getElementById('nextAdminPeriod').textContent = formatDateRange(next.start, next.end);
+        document.getElementById('nextAdminProgress').textContent = `${progress.completed}/${progress.total}`;
+        document.getElementById('nextAdminBar').style.width = `${progress.percent}%`;
+        document.getElementById('nextAdminBar').className = `progress-fill ${progress.percent >= 80 ? 'high' : progress.percent >= 50 ? 'medium' : 'low'}`;
+    } else {
+        document.getElementById('nextAdminName').textContent = 'None Scheduled';
+        document.getElementById('nextAdminPeriod').textContent = '--';
+        document.getElementById('nextAdminProgress').textContent = '0/10';
+        document.getElementById('nextAdminBar').style.width = '0%';
+    }
+
+    // Year Progress
+    const yearStart = new Date('2026-01-01');
+    const yearEnd = new Date('2026-12-31');
+    const today = new Date('2026-07-08');
+    const yearPercent = Math.round(((today - yearStart) / (yearEnd - yearStart)) * 100);
+    document.getElementById('yearProgress').textContent = `${yearPercent}%`;
+    document.getElementById('yearBar').style.width = `${yearPercent}%`;
+
+    // Overdue & Completion
+    let totalCompleted = 0;
+    let totalTasks = 0;
+    let overdueCount = 0;
+
+    appData.rotations.forEach(r => {
+        const end = new Date(r.end);
+        const progress = getRotationProgress(r);
+        totalCompleted += progress.completed;
+        totalTasks += progress.total;
+        if (end < today && progress.completed < progress.total) overdueCount++;
+    });
+
+    const completionRate = totalTasks > 0 ? Math.round((totalCompleted / totalTasks) * 100) : 0;
+    document.getElementById('overdueCount').textContent = overdueCount;
+    document.getElementById('completionRate').textContent = `${completionRate}%`;
+    document.getElementById('completionBar').style.width = `${completionRate}%`;
+    document.getElementById('completionBar').className = `progress-fill ${completionRate >= 80 ? 'high' : completionRate >= 50 ? 'medium' : 'low'}`;
+
+    // Dashboard Table
+    const tbody = document.getElementById('dashboardTableBody');
+    tbody.innerHTML = '';
+    appData.rotations.slice(0, 5).forEach(rotation => {
+        const progress = getRotationProgress(rotation);
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="date-range">${formatDateRange(rotation.start, rotation.end)}</td>
+            <td><span class="admin-${ADMIN_COLORS[rotation.assigned]}">${rotation.assigned}</span></td>
+            <td>${getStatusBadge(rotation.status)}</td>
+            <td>${progress.completed}/${progress.total}</td>
+            <td>
+                <div class="progress-bar" style="width: 120px;">
+                    <div class="progress-fill ${progress.percent >= 80 ? 'high' : progress.percent >= 50 ? 'medium' : 'low'}" style="width: ${progress.percent}%"></div>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+// ==================== ROTATION TABLE ====================
+function renderRotation() {
+    const tbody = document.getElementById('rotationTableBody');
+    tbody.innerHTML = '';
+    const today = new Date('2026-07-08');
+
+    appData.rotations.forEach((rotation, index) => {
+        const progress = getRotationProgress(rotation);
+        const end = new Date(rotation.end);
+        const isCurrent = today >= new Date(rotation.start) && today <= end;
+        const isNext = !isCurrent && new Date(rotation.start) > today && 
+                      !appData.rotations.some(r => today >= new Date(r.start) && today <= new Date(r.end));
+        const isOverdue = end < today && progress.completed < progress.total;
+
+        const row = document.createElement('tr');
+        row.className = `${isCurrent ? 'current-row' : ''} ${isNext ? 'next-row' : ''} ${isOverdue ? 'overdue-row' : ''}`;
+
+        let html = `
+            <td>${formatDate(rotation.start)}</td>
+            <td>${formatDate(rotation.end)}</td>
+            <td><span class="admin-${ADMIN_COLORS[rotation.assigned]}">${rotation.assigned}</span></td>
+            <td>${getStatusBadge(rotation.status)}</td>
+        `;
+
+        TASK_COLUMNS.forEach(col => {
+            html += `<td><div class="checkbox-wrapper"><div class="custom-checkbox ${rotation[col] ? 'checked' : ''} ${isAdmin ? '' : 'readonly'}" onclick="${isAdmin ? `toggleTask(${index}, '${col}')` : ''}"></div></div></td>`;
+        });
+
+        html += `<td>${isAdmin ? `<textarea class="remarks-input" onchange="updateRemarks(${index}, this.value)" placeholder="Add remarks...">${rotation.remarks || ''}</textarea>` : `<div class="remarks-text">${rotation.remarks || '-'}</div>`}</td>`;
+
+        row.innerHTML = html;
+        tbody.appendChild(row);
+    });
+}
+
+function toggleTask(rotationIndex, column) {
+    appData.rotations[rotationIndex][column] = !appData.rotations[rotationIndex][column];
+    saveData();
+    renderAll();
+    showToast('Task Updated', `${column.replace(/_/g, ' ').replace(/\\b\\w/g, l => l.toUpperCase())} marked as ${appData.rotations[rotationIndex][column] ? 'complete' : 'incomplete'}`, 'success');
+}
+
+function updateRemarks(index, value) {
+    appData.rotations[index].remarks = value;
+    saveData();
+    showToast('Remarks Saved', 'Your notes have been updated.', 'success');
+}
+
+// ==================== GENERIC TABLES ====================
+function renderGenericTable(tableId, dataKey, emptyIcon, emptyTitle) {
+    const tbody = document.getElementById(tableId);
+    tbody.innerHTML = '';
+    const data = appData[dataKey];
+
+    if (data.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="4">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">${emptyIcon}</div>
+                        <h3>${emptyTitle}</h3>
+                        <p>No entries yet. ${isAdmin ? 'Click "Add" to create one.' : 'Login to add entries.'}</p>
+                    </div>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    data.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.date || '-'}</td>
+            <td>${item.details || '-'}</td>
+            <td><span class="admin-${ADMIN_COLORS[item.assigned] || 'elaine'}">${item.assigned || '-'}</span></td>
+            <td>${getStatusBadge(item.status || 'Pending')}</td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+// ==================== ADD FUNCTIONS ====================
+function addNewRotation() {
+    const lastRotation = appData.rotations[appData.rotations.length - 1];
+    const lastEnd = new Date(lastRotation.end);
+    const newStart = new Date(lastEnd);
+    newStart.setDate(newStart.getDate() + 1);
+    const newEnd = new Date(newStart);
+    newEnd.setDate(newEnd.getDate() + 13);
+
+    const admins = ['Elaine', 'Rolyn', 'Danna'];
+    const lastAdmin = lastRotation.assigned;
+    const nextAdmin = admins[(admins.indexOf(lastAdmin) + 1) % 3];
+
+    const newRotation = {
+        id: appData.rotations.length + 1,
+        start: newStart.toISOString().split('T')[0],
+        end: newEnd.toISOString().split('T')[0],
+        assigned: nextAdmin,
+        status: 'Upcoming',
+        roster: false, setlist: false, rehearsal: false, lyrics: false,
+        youtube: false, swl: false, availability: false, study: false,
+        notes: false, updated: false, remarks: ''
+    };
+
+    appData.rotations.push(newRotation);
+    saveData();
+    renderAll();
+    showToast('Rotation Added', `New rotation for ${nextAdmin} added successfully!`, 'success');
+}
+
+function addNewEntry(dataKey, emptyIcon, title) {
+    const date = prompt('Enter date (YYYY-MM-DD):');
+    if (!date) return;
+    const details = prompt('Enter details:');
+    const assigned = prompt('Assigned to (Elaine/Rolyn/Danna):') || 'Elaine';
+    const status = 'Pending';
+
+    appData[dataKey].push({ date, details, assigned, status });
+    saveData();
+    renderAll();
+    showToast('Entry Added', `New ${title} entry added!`, 'success');
+}
+
+function addNewRoster() { addNewEntry('roster', '👥', 'Roster'); }
+function addNewSetlist() { addNewEntry('setlist', '🎵', 'Setlist'); }
+function addNewLyrics() { addNewEntry('lyrics', '📝', 'Lyrics'); }
+function addNewYoutube() { addNewEntry('youtube', '📺', 'YouTube'); }
+function addNewStudy() { addNewEntry('study', '📖', 'Study Guide'); }
+function addNewRehearsal() { addNewEntry('rehearsal', '🎤', 'Rehearsal'); }
+
+// ==================== CALENDAR ====================
+function renderCalendar() {
+    const grid = document.getElementById('calendarGrid');
+    const monthYear = document.getElementById('calendarMonthYear');
+    const year = calendarDate.getFullYear();
+    const month = calendarDate.getMonth();
+
+    monthYear.textContent = new Date(year, month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const firstDay = new Date(year, month, 1).getDay();
+
+    let html = '';
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    dayNames.forEach(day => {
+        html += `<div class="calendar-day" style="background:var(--bg);box-shadow:none;"><span class="calendar-day-header">${day}</span></div>`;
+    });
+
+    for (let i = 0; i < firstDay; i++) {
+        html += `<div class="calendar-day" style="background:transparent;box-shadow:none;"></div>`;
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const rotation = appData.rotations.find(r => dateStr >= r.start && dateStr <= r.end);
+        const isToday = dateStr === '2026-07-08';
+        const adminClass = rotation ? ADMIN_COLORS[rotation.assigned] : '';
+        const adminDot = rotation ? `<div class="admin-dot" style="background:${getAdminColor(rotation.assigned)}"></div>` : '';
+
+        html += `
+            <div class="calendar-day ${adminClass} ${isToday ? 'today' : ''}">
+                <span class="calendar-day-header">${day === 1 ? new Date(year, month, day).toLocaleDateString('en-US', { month: 'short' }) : ''}</span>
+                <span class="calendar-day-number">${day}</span>
+                ${adminDot}
+            </div>
+        `;
+    }
+
+    grid.innerHTML = html;
+}
+
+function getAdminColor(admin) {
+    const colors = { 'Elaine': '#6C5CE7', 'Rolyn': '#E84393', 'Danna': '#00B894' };
+    return colors[admin] || '#ccc';
+}
+
+function changeMonth(delta) {
+    calendarDate.setMonth(calendarDate.getMonth() + delta);
+    renderCalendar();
+}
+
+// ==================== ANALYTICS ====================
+function renderAnalytics() {
+    let totalTasks = 0;
+    let completedTasks = 0;
+    let elaineCount = 0;
+    let rolynCount = 0;
+    let dannaCount = 0;
+    let totalProgress = 0;
+
+    const adminStats = {
+        'Elaine': { rotations: 0, completed: 0, total: 0 },
+        'Rolyn': { rotations: 0, completed: 0, total: 0 },
+        'Danna': { rotations: 0, completed: 0, total: 0 }
+    };
+
+    appData.rotations.forEach(r => {
+        const progress = getRotationProgress(r);
+        totalTasks += progress.total;
+        completedTasks += progress.completed;
+        totalProgress += progress.percent;
+
+        adminStats[r.assigned].rotations++;
+        adminStats[r.assigned].completed += progress.completed;
+        adminStats[r.assigned].total += progress.total;
+
+        if (r.assigned === 'Elaine') elaineCount++;
+        if (r.assigned === 'Rolyn') rolynCount++;
+        if (r.assigned === 'Danna') dannaCount++;
+    });
+
+    document.getElementById('statTotalTasks').textContent = totalTasks;
+    document.getElementById('statCompletedTasks').textContent = completedTasks;
+    document.getElementById('statCompletionRate').textContent = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) + '%' : '0%';
+    document.getElementById('statElaineCount').textContent = elaineCount;
+    document.getElementById('statRolynCount').textContent = rolynCount;
+    document.getElementById('statDannaCount').textContent = dannaCount;
+    document.getElementById('statAvgProgress').textContent = appData.rotations.length > 0 ? Math.round(totalProgress / appData.rotations.length) + '%' : '0%';
+
+    const tbody = document.getElementById('analyticsTableBody');
+    tbody.innerHTML = '';
+
+    Object.entries(adminStats).forEach(([admin, stats]) => {
+        const rate = stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0;
+        const avgProgress = stats.rotations > 0 ? Math.round((stats.completed / stats.total) * 100) : 0;
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td><span class="admin-${ADMIN_COLORS[admin]}">${admin}</span></td>
+            <td>${stats.rotations}</td>
+            <td>${stats.completed}</td>
+            <td>${stats.total}</td>
+            <td>
+                <div class="progress-bar" style="width: 100px;">
+                    <div class="progress-fill ${rate >= 80 ? 'high' : rate >= 50 ? 'medium' : 'low'}" style="width: ${rate}%"></div>
+                </div>
+                ${rate}%
+            </td>
+            <td>${avgProgress}%</td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+// ==================== UTILITIES ====================
+function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function formatDateRange(start, end) {
+    return `${formatDate(start)} <span class="date-sep">→</span> ${formatDate(end)}`;
+}
+
+function showToast(title, message, type = 'info') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+
+    const icons = {
+        success: '✅',
+        error: '❌',
+        warning: '⚠️',
+        info: 'ℹ️'
+    };
+
+    toast.innerHTML = `
+        <div class="toast-icon">${icons[type] || 'ℹ️'}</div>
+        <div class="toast-content">
+            <div class="toast-title">${title}</div>
+            <div class="toast-message">${message}</div>
+        </div>
+    `;
+
+    container.appendChild(toast);
+
+    requestAnimationFrame(() => {
+        toast.classList.add('show');
+    });
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => container.removeChild(toast), 400);
+    }, 3000);
+}
+
+// ==================== RENDER ALL ====================
+function renderAll() {
+    renderDashboard();
+    renderRotation();
+    renderGenericTable('rosterTableBody', 'roster', '👥', 'No Roster Entries');
+    renderGenericTable('setlistTableBody', 'setlist', '🎵', 'No Setlist Entries');
+    renderGenericTable('lyricsTableBody', 'lyrics', '📝', 'No Lyrics Entries');
+    renderGenericTable('youtubeTableBody', 'youtube', '📺', 'No YouTube Entries');
+    renderGenericTable('studyTableBody', 'study', '📖', 'No Study Guide Entries');
+    renderGenericTable('rehearsalTableBody', 'rehearsal', '🎤', 'No Rehearsal Notes');
+}
+
+// ==================== INIT ====================
+window.addEventListener('DOMContentLoaded', () => {
+    loadData();
+    renderAll();
+
+    // Check if already logged in (for demo purposes, you might want to remove this)
+    // isAdmin = true; // Uncomment for testing without login
+    // if (isAdmin) {
+    //     document.getElementById('loginBtn').style.display = 'none';
+    //     document.getElementById('logoutBtn').style.display = 'inline-flex';
+    //     document.getElementById('editIndicator').classList.add('active');
+    //     showAdminButtons();
+    // }
+});
+
+// Keyboard shortcut for login (press 'L' to open login)
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'l' || e.key === 'L') {
+        if (!isAdmin && !document.getElementById('loginModal').classList.contains('active')) {
+            showLoginModal();
+        }
+    }
+    if (e.key === 'Escape') {
+        cancelLogin();
+    }
+});
+</script>
+</body>
+</html>
